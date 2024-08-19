@@ -2,6 +2,9 @@ package ru.maxima.libra.models;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,26 +22,17 @@ public class Person {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @OneToMany(mappedBy = "person", fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Book> personBooks;
-
-    //@NotEmpty(message = "Имя не может быть пустым")
-   // @Size(min = 4,max = 50,message = "Фамилия, имя и отчество должны быть не менее 5 символов и не более 50 символов")
     @Column(name = "name")
     private String name;
-
-   // @Min(value = 5,message = "Возраст не может быть меньше 5 лет")
     @Column(name = "age")
     private Integer age;
-  //  @NotEmpty(message = "Поле электронной почты не может быть пустым")
     @Column(name = "email")
     private String email;
-  //  @NotEmpty(message = "Поле номера телефона не может быть пустым")
     @Column(name = "phone_number")
     private String phoneNumber;
-  //  @NotEmpty(message = "Поле пароля не может быть пустым")
     @Column(name = "password")
     private String password;
     @Column(name = "role")

@@ -3,10 +3,6 @@ package ru.maxima.libra.dto;
 import lombok.*;
 
 @Data
-@NoArgsConstructor
-@Setter
-@Getter
-@ToString
 public class BookDTO {
     private Long Id;
     private String name;

@@ -6,9 +6,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode
 public class PersonDTO {
     private Long id;
     private String name;
@@ -16,6 +13,6 @@ public class PersonDTO {
     private String email;
     private String phoneNumber;
     private String role;
-    private BookDTO bookDTO;
+    //private BookDTO bookDTO;
 
 }

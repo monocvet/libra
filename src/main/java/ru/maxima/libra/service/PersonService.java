@@ -89,7 +89,7 @@ public class PersonService {
     private void personEnrich(Person p) {
         p.setCreatedAt(LocalDateTime.now());
         p.setCreatedPerson("ADMIN");
-        p.setRole("ROLE_USER");
+        p.setRole("USER");
         //  p.setPassword(passwordEncoder.encode(p.getPassword()));
         p.setRemoved(false);
     }

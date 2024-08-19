@@ -8,10 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import ru.maxima.libra.dto.BookDTO;
-import ru.maxima.libra.exceptions.ErrorResponse;
-import ru.maxima.libra.exceptions.NotCreatedException;
-import ru.maxima.libra.exceptions.NotDeletedException;
-import ru.maxima.libra.exceptions.NotFoundException;
+import ru.maxima.libra.exceptions.*;
 import ru.maxima.libra.exceptions.exception_book.*;
 import ru.maxima.libra.models.Book;
 import ru.maxima.libra.repositories.PersonRepository;
@@ -24,7 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/books")
+@RequestMapping("api/books")
 public class BookController {
 
     private final BookService bookService;
@@ -81,7 +78,7 @@ public class BookController {
                         .append(error.getDefaultMessage())
                         .append(";");
             });
-            throw new BookNotUpdatedException(bld.toString());
+            throw new NotUpdatedException(bld.toString());
         }
         Book book = bookService.getBook(id);
         if (book == null) {
@@ -117,10 +114,10 @@ public class BookController {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler({BookNotUpdatedException.class})
-    public ResponseEntity<ErrorResponse> handleException(BookNotUpdatedException e) {
+    @ExceptionHandler({NotUpdatedException.class})
+    public ResponseEntity<ErrorResponse> handleException(NotUpdatedException e) {
         ErrorResponse response = new ErrorResponse(
-                e.getMessage(), new Date());
+                "Книга не обновлена", new Date());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 

@@ -110,9 +110,4 @@ public class BookService {
         book.setCreatedAt(LocalDateTime.now());
         book.setRemoved(false);
     }
-//    public byte[] getCoverImage(Long Id) {
-//        Book book = getBook(Id).getImage(ImageData.);
-//        ImageData imageData = book.getImage();
-//        return new byte[0];
-//    }
 }

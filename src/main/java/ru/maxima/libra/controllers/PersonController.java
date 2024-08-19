@@ -9,10 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import ru.maxima.libra.dto.PersonDTO;
-import ru.maxima.libra.exceptions.ErrorResponse;
-import ru.maxima.libra.exceptions.NotCreatedException;
-import ru.maxima.libra.exceptions.NotDeletedException;
-import ru.maxima.libra.exceptions.NotFoundException;
+import ru.maxima.libra.exceptions.*;
 import ru.maxima.libra.exceptions.exceptions_person.*;
 import ru.maxima.libra.models.Person;
 import ru.maxima.libra.service.PersonService;
@@ -23,7 +20,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/people")
+@RequestMapping("api/people")
 public class PersonController {
 
     private final PersonService personService;
@@ -79,7 +76,7 @@ public class PersonController {
                         .append(error.getDefaultMessage())
                         .append(";");
             });
-            throw new PersonNotUpdatedException(bld.toString());
+            throw new NotUpdatedException(bld.toString());
         }
         Person person = personService.getPerson(id);
         if(person  == null){
@@ -117,8 +114,8 @@ public class PersonController {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler({PersonNotUpdatedException.class})
-    public ResponseEntity<ErrorResponse> handleException(PersonNotUpdatedException e) {
+    @ExceptionHandler({NotUpdatedException.class})
+    public ResponseEntity<ErrorResponse> handleException(NotUpdatedException e) {
         ErrorResponse response = new ErrorResponse(
                 "Пользователь не обновлен", new Date()
         );
