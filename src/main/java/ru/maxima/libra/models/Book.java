@@ -24,7 +24,6 @@ public class Book {
 
     @ManyToOne
     @JoinColumn(name="person_id", referencedColumnName = "id")
-    @JsonBackReference
     private Person person;
 
     @Column(name = "name")

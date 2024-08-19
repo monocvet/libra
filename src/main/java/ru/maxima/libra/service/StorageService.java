@@ -1,25 +1,19 @@
 package ru.maxima.libra.service;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import ru.maxima.libra.dto.BookDTO;
-import ru.maxima.libra.dto.ImageDTO;
-import ru.maxima.libra.models.Book;
 import ru.maxima.libra.models.ImageData;
 import ru.maxima.libra.repositories.StorageRepository;
 import ru.maxima.libra.util.ImageUtils;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
 
 @Service
 public class StorageService {
     @Autowired
     private StorageRepository repository;
-    private ModelMapper modelMapper;
 
     public String uploadImage(MultipartFile file) throws IOException {
 
@@ -38,4 +32,5 @@ public class StorageService {
         byte[] images = ImageUtils.decompressImage(dbImageData.get().getImageData());
         return images;
     }
+
 }

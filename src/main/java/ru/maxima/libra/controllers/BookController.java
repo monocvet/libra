@@ -3,6 +3,7 @@ package ru.maxima.libra.controllers;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -68,7 +69,7 @@ public class BookController {
 
     @PostMapping("/update/{id}")
     public ResponseEntity<BookDTO> updateBook(@RequestBody @Valid Book updatedBook,
-                                                  @PathVariable Long id, BindingResult bindingResult) {
+                                              @PathVariable Long id, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             StringBuilder bld = new StringBuilder();
             bindingResult.getFieldErrors().forEach(error -> {
@@ -105,6 +106,12 @@ public class BookController {
                 "Такой книги нет", new Date());
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
+    @ExceptionHandler({ImageNotFoundException.class})
+    public ResponseEntity<ErrorResponse> handleException(ImageNotFoundException e) {
+        ErrorResponse response = new ErrorResponse(
+                "Обложка не найдена", new Date());
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
 
 
     @ExceptionHandler({NotUpdatedException.class})
@@ -137,6 +144,7 @@ public class BookController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
         }
     }
+
     @PostMapping("/select/{id}")
     public ResponseEntity<BookDTO> addBookInUser(@RequestParam("id") Long book_id, @RequestParam Long id) {
         Book book = bookService.getBook(book_id);
@@ -146,35 +154,20 @@ public class BookController {
         Book newBook = bookService.addBookInUser(book_id, id);
         return ResponseEntity.accepted().body(bookService.convertToBookDTO(newBook));
     }
-//    @GetMapping("/{bookId}/coverImage")
-//    public ResponseEntity<byte[]> getCoverImage(@PathVariable("bookId") Long bookId, @RequestParam("personId") Long personId ) {
-//        try {
-//            bookService.getCoverImage(bookId, personId);
-//        } catch (IllegalStateException ex) {
-//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex.getMessage().getBytes());
-//        }
-//
-//        Book book = bookService.findBookById(bookId);
-//
-//        if (book == null) {
-//            return ResponseEntity.notFound().build();
-//        }
-//
-//        byte[] imageData = book.getCoverImage();
-//
-//        if (imageData == null || imageData.length == 0) {
-//            return ResponseEntity.notFound().build();
-//        }
-//
-//        try {
-//            String contentType = getContentType(imageData);
-//            HttpHeaders headers = new HttpHeaders();
-//            headers.setContentType(MediaType.valueOf(contentType));
-//            return new ResponseEntity<>(imageData, headers, HttpStatus.OK);
-//        } catch (MagicMatchNotFoundException | MagicException | MagicParseException ex) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-//        }
-//    }
+
+    @GetMapping("/{bookid}/image")
+    public ResponseEntity<?> downloadImage(@PathVariable("bookid") Long id) {
+        byte[] imageData = null;
+        try {
+            imageData = bookService.downloadImageFromBook(id);
+        } catch (Exception e) {
+            throw new ImageNotFoundException();
+        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .contentType(MediaType.valueOf("image/png"))
+                .body(imageData);
+
+    }
 
 }
 

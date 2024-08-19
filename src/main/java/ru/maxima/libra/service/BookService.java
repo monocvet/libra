@@ -10,6 +10,7 @@ import ru.maxima.libra.models.Book;
 import ru.maxima.libra.models.ImageData;
 import ru.maxima.libra.models.Person;
 import ru.maxima.libra.repositories.BookRepository;
+import ru.maxima.libra.util.ImageUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -109,5 +110,11 @@ public class BookService {
     private void enrich(Book book) {
         book.setCreatedAt(LocalDateTime.now());
         book.setRemoved(false);
+    }
+
+    public byte[] downloadImageFromBook(Long id) {
+        final byte[] imageData = getBook(id).getImage().getImageData();
+        byte[] images = ImageUtils.decompressImage(imageData);
+        return images;
     }
 }
