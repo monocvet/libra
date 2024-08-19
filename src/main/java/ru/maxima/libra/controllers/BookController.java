@@ -9,12 +9,11 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import ru.maxima.libra.dto.BookDTO;
 import ru.maxima.libra.exceptions.*;
-import ru.maxima.libra.exceptions.exception_book.*;
 import ru.maxima.libra.models.Book;
 import ru.maxima.libra.repositories.PersonRepository;
 import ru.maxima.libra.service.BookService;
 import ru.maxima.libra.service.PersonService;
-import ru.maxima.libra.util.Response;
+import ru.maxima.libra.exceptions.Response;
 
 import java.util.Date;
 import java.util.List;
@@ -107,12 +106,6 @@ public class BookController {
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler({BookNotRegisteredException.class})
-    public ResponseEntity<ErrorResponse> handleException(BookNotRegisteredException e) {
-        ErrorResponse response = new ErrorResponse(
-                e.getMessage(), new Date());
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-    }
 
     @ExceptionHandler({NotUpdatedException.class})
     public ResponseEntity<ErrorResponse> handleException(NotUpdatedException e) {

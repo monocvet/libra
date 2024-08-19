@@ -1,4 +1,4 @@
-package ru.maxima.libra.util;
+package ru.maxima.libra.exceptions;
 
 import lombok.*;
 import java.util.Date;

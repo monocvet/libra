@@ -9,7 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
-    Optional<Book> findBookByIdAndRemovedIsFalse(Long id);
     List<Book> findAllByRemovedIsFalseOrderById();
-    byte[] findBookByImage_Id(Long id);
 }

@@ -10,10 +10,9 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import ru.maxima.libra.dto.PersonDTO;
 import ru.maxima.libra.exceptions.*;
-import ru.maxima.libra.exceptions.exceptions_person.*;
 import ru.maxima.libra.models.Person;
 import ru.maxima.libra.service.PersonService;
-import ru.maxima.libra.util.Response;
+import ru.maxima.libra.exceptions.Response;
 
 import java.util.Date;
 import java.util.List;
